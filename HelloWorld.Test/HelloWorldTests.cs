@@ -1,10 +1,13 @@
 using Xunit;
 using FluentAssertions;
+using System.IO;
+using System;
 
 namespace HelloWorld.Test;
 
 public class UnitTest1
 {
+    
     [Fact]
     public void YES_2008_IS_LEAP_YEAR_DIVEDED_BY_4(){
          // Arrange
@@ -53,4 +56,32 @@ public class UnitTest1
         isLeapYear.Should().Be(true);
     }
 
+    [Fact]
+    public void YES_1600_IS_A_LEAP_YEAR_SHOULD_GET_YAY_OUTPUT(){
+        // Arrange 
+        using var writer = new StringWriter();
+        Console.SetOut(writer);
+
+        // Act
+        HelloWorld.commandLineInputChecker("1600");
+
+        // Assert
+        var output = writer.GetStringBuilder().ToString().TrimEnd();
+        output.Should().Be("yay");
+    }
+
+    [Fact]
+    public void WRONG_INPUT_IT_IS_NOT_INTEGER(){
+        // Arrange 
+        using var writer = new StringWriter();
+        Console.SetOut(writer);
+
+        // Act
+        HelloWorld.commandLineInputChecker("Hello, World!");
+        
+        // Assert
+        var output = writer.GetStringBuilder().ToString().TrimEnd();
+        output.Should().Be("Error - Please enter valid input (int)");
+    }
+     
 }
